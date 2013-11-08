@@ -3,7 +3,6 @@ package com.example.core;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-
 import com.example.herodefender.GameConsts;
 import com.example.herodefender.config.ImageConfig;
 import com.example.herodefender.config.ModelConfig;
@@ -16,13 +15,15 @@ public class GameBean extends Application
 	private ImageConfig imageConfig;
 	private MusicConfig musciConfig;
 	private GameConsts gameConsts;
-	private int state= -1;
+	private int state = -1;
 	private int nextState;
+
 	public GameBean()
 	{
 		Log.v("TEST", "init gameBean");
-		
+
 	}
+
 	public void init()
 	{
 		Log.v("TEST", "GameBean init");
@@ -32,12 +33,15 @@ public class GameBean extends Application
 		gameConsts = new GameConsts(context.getResources());
 		state = -1;
 	}
+
 	public void restoreGameBean()
 	{
 	}
+
 	public void storeGameBean()
 	{
 	}
+
 	/**
 	 * @return the modelConfig
 	 */
@@ -45,13 +49,16 @@ public class GameBean extends Application
 	{
 		return modelConfig;
 	}
+
 	/**
-	 * @param modelConfig the modelConfig to set
+	 * @param modelConfig
+	 *            the modelConfig to set
 	 */
 	public void setModelConfig(ModelConfig modelConfig)
 	{
 		this.modelConfig = modelConfig;
 	}
+
 	/**
 	 * @return the imageConfig
 	 */
@@ -59,13 +66,16 @@ public class GameBean extends Application
 	{
 		return imageConfig;
 	}
+
 	/**
-	 * @param imageConfig the imageConfig to set
+	 * @param imageConfig
+	 *            the imageConfig to set
 	 */
 	public void setImageConfig(ImageConfig imageConfig)
 	{
 		this.imageConfig = imageConfig;
 	}
+
 	/**
 	 * @return the musciConfig
 	 */
@@ -73,13 +83,16 @@ public class GameBean extends Application
 	{
 		return musciConfig;
 	}
+
 	/**
-	 * @param musciConfig the musciConfig to set
+	 * @param musciConfig
+	 *            the musciConfig to set
 	 */
 	public void setMusciConfig(MusicConfig musciConfig)
 	{
 		this.musciConfig = musciConfig;
 	}
+
 	/**
 	 * @return the state
 	 */
@@ -87,13 +100,16 @@ public class GameBean extends Application
 	{
 		return state;
 	}
+
 	/**
-	 * @param state the state to set
+	 * @param state
+	 *            the state to set
 	 */
 	public void setState(int state)
 	{
 		this.state = state;
 	}
+
 	/**
 	 * @return the nextState
 	 */
@@ -101,13 +117,16 @@ public class GameBean extends Application
 	{
 		return nextState;
 	}
+
 	/**
-	 * @param nextState the nextState to set
+	 * @param nextState
+	 *            the nextState to set
 	 */
 	public void setNextState(int nextState)
 	{
 		this.nextState = nextState;
 	}
+
 	/**
 	 * @return the context
 	 */
@@ -115,12 +134,14 @@ public class GameBean extends Application
 	{
 		return context;
 	}
+
 	/**
-	 * @param context the context to set
+	 * @param context
+	 *            the context to set
 	 */
 	public void setContext(Context context)
 	{
 		this.context = context;
 	}
-	
+
 }

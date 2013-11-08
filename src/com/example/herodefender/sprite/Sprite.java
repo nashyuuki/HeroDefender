@@ -16,25 +16,35 @@ public class Sprite
 	private ImageConfig imageConfig;
 	private int[] collisionArea = {};
 	private int[] scaleArea;
-	public float scale=1;
+	public float scale = 1;
 	private int layer;
-	public void update(){};
-	public void drawView(Canvas canvas){};
-	public void drawView(Canvas canvas,int layer)
+
+	public void update()
 	{
-		if(this.layer==layer)
+	};
+
+	public void drawView(Canvas canvas)
+	{
+	};
+
+	public void drawView(Canvas canvas, int layer)
+	{
+		if (this.layer == layer)
 		{
 			this.drawView(canvas);
 		}
 	}
+
 	public Sprite(ImageConfig imageConfig)
 	{
-		this.imageConfig=imageConfig;
+		this.imageConfig = imageConfig;
 	}
+
 	public void setX(int x)
 	{
 		this.x = x;
 	}
+
 	public int getX()
 	{
 		return x;
@@ -49,33 +59,38 @@ public class Sprite
 	{
 		return y;
 	}
+
 	public void setPosition(int[] position)
 	{
-		this.x=position[0];
-		this.y=position[1];
+		this.x = position[0];
+		this.y = position[1];
 	}
+
 	public void setPosition(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 	}
+
 	public void setState(int state)
 	{
-		this.preState=this.state;
+		this.preState = this.state;
 		scriptInt = 0;
 		this.state = state;
 	}
+
 	public int getState()
 	{
 		return state;
 	}
+
 	public boolean nextScriptInt(int scriptLength)
 	{
 		boolean scriptEnd = false;
 		if (scriptInt < (scriptLength - 1))
 		{
 			scriptInt++;
-		} 
+		}
 		else
 		{
 			scriptInt = 0;
@@ -83,18 +98,21 @@ public class Sprite
 		}
 		return scriptEnd;
 	}
+
 	public boolean nextScriptInt(int scriptInt, int scriptLength)
 	{
 		boolean scriptEnd = false;
 		if (scriptInt < (scriptLength - 1))
 		{
 			scriptInt++;
-		} else
+		}
+		else
 		{
 			scriptEnd = true;
 		}
 		return scriptEnd;
 	}
+
 	public boolean isCollision(Sprite s1)
 	{
 		int x0, y0, x1, y1, ox0, oy0, ox1, oy1;
@@ -113,123 +131,143 @@ public class Sprite
 		}
 		return false;
 	}
-	public boolean isCollision(int x,int y)
+
+	public boolean isCollision(int x, int y)
 	{
-		int x0,y0,x1,y1;
+		int x0, y0, x1, y1;
 		x0 = this.scaleArea[0] + this.getX();
 		y0 = this.scaleArea[1] + this.getY();
 		x1 = this.scaleArea[2] + this.getX();
 		y1 = this.scaleArea[3] + this.getY();
-		if(x>x0&&x<x1&&y>y0&&y<y1)
+		if (x > x0 && x < x1 && y > y0 && y < y1)
 		{
 			return true;
 		}
 		return false;
 	}
+
 	public Drawable getDrawable(int image)
 	{
 		return imageConfig.getDrawable(image);
 	}
+
 	public int getWidth(int image)
 	{
 		return this.getDrawable(image).getIntrinsicWidth();
 	}
+
 	public int getHeight(int image)
 	{
 		return this.getDrawable(image).getIntrinsicHeight();
 	}
-	public void drawImage(Canvas canvas, int image, int x, int y, int width,int height,int frameInt,float scaleX,float scaleY)
+
+	public void drawImage(Canvas canvas, int image, int x, int y, int width, int height, int frameInt, float scaleX, float scaleY)
 	{
-		Drawable drawable=this.getDrawable(image);
-		DrawUtil.drawImage(canvas, drawable, x, y, width, height, frameInt,scaleX,scaleY);
+		Drawable drawable = this.getDrawable(image);
+		DrawUtil.drawImage(canvas, drawable, x, y, width, height, frameInt, scaleX, scaleY);
 	}
-	public void drawRect(Canvas canvas, int x, int y, int width,
-			int height, int a, int r, int g, int b)
+
+	public void drawRect(Canvas canvas, int x, int y, int width, int height, int a, int r, int g, int b)
 	{
 		DrawUtil.drawRect(canvas, x, y, width, height, a, r, g, b);
 	}
-	public void drawStrokeRect(Canvas canvas, int x, int y, int width,
-			int height, int a, int r, int g, int b,int strokeWidth)
+
+	public void drawStrokeRect(Canvas canvas, int x, int y, int width, int height, int a, int r, int g, int b, int strokeWidth)
 	{
-		DrawUtil.drawStrokeRect(canvas, x, y, width, height, a, r, g, b,strokeWidth);
+		DrawUtil.drawStrokeRect(canvas, x, y, width, height, a, r, g, b, strokeWidth);
 	}
-	public void drawImage(Canvas canvas,int image,int x,int y, int width,int height,int frameInt)
+
+	public void drawImage(Canvas canvas, int image, int x, int y, int width, int height, int frameInt)
 	{
-		Drawable drawable=this.getDrawable(image);
+		Drawable drawable = this.getDrawable(image);
 		DrawUtil.drawImage(canvas, drawable, x, y, width, height, frameInt);
 	}
-	public void drawImage(Canvas canvas,int image,int x,int y)
+
+	public void drawImage(Canvas canvas, int image, int x, int y)
 	{
-		Drawable drawable=this.getDrawable(image);
+		Drawable drawable = this.getDrawable(image);
 		DrawUtil.drawImage(canvas, drawable, x, y);
 	}
-	public void drawColorImage(Canvas canvas, int image, int x, int y,int color)
+
+	public void drawColorImage(Canvas canvas, int image, int x, int y, int color)
 	{
-		Drawable drawable=this.getDrawable(image);
-		DrawUtil.drawColorImage(canvas, drawable, x, y, color,0,255);
+		Drawable drawable = this.getDrawable(image);
+		DrawUtil.drawColorImage(canvas, drawable, x, y, color, 0, 255);
 	}
-	public void drawColorImage(Canvas canvas, int image, int x, int y,int color,int size,int alpha)
+
+	public void drawColorImage(Canvas canvas, int image, int x, int y, int color, int size, int alpha)
 	{
-		Drawable drawable=this.getDrawable(image);
-		DrawUtil.drawColorImage(canvas, drawable, x, y, color,size,alpha);
+		Drawable drawable = this.getDrawable(image);
+		DrawUtil.drawColorImage(canvas, drawable, x, y, color, size, alpha);
 	}
-	public void drawText(Canvas canvas,String text,int x, int y,int size)
+
+	public void drawText(Canvas canvas, String text, int x, int y, int size)
 	{
 		DrawUtil.drawText(canvas, text, x, y, size);
 	}
-	public void drawImage(Canvas canvas,int image,int x,int y,int alpha)
+
+	public void drawImage(Canvas canvas, int image, int x, int y, int alpha)
 	{
-		Drawable drawable=this.getDrawable(image);
-		DrawUtil.drawImage(canvas, drawable, x, y,alpha);
+		Drawable drawable = this.getDrawable(image);
+		DrawUtil.drawImage(canvas, drawable, x, y, alpha);
 	}
+
 	public int[] getCollisionArea()
 	{
 		return collisionArea;
 	}
+
 	public void setCollisionArea(int[] collisionArea)
 	{
 		this.collisionArea = new int[collisionArea.length];
-		for(int i=0;i<collisionArea.length;i++)
+		for (int i = 0; i < collisionArea.length; i++)
 		{
-			this.collisionArea[i]=collisionArea[i];
+			this.collisionArea[i] = collisionArea[i];
 		}
-			
+
 		this.setScale(scale);
 	}
+
 	public double getScale()
 	{
 		return scale;
 	}
+
 	public void setScale(float scale)
 	{
 		this.scale = scale;
-		this.scaleArea=new int[collisionArea.length];
-		for(int i=0;i<this.scaleArea.length;i++)
+		this.scaleArea = new int[collisionArea.length];
+		for (int i = 0; i < this.scaleArea.length; i++)
 		{
-			this.scaleArea[i]=(int)(collisionArea[i]*scale);
+			this.scaleArea[i] = (int) (collisionArea[i] * scale);
 		}
 	}
+
 	public int getScriptInt()
 	{
 		return scriptInt;
 	}
+
 	public void setScriptInt(int scriptInt)
 	{
 		this.scriptInt = scriptInt;
 	}
+
 	public int getLayer()
 	{
 		return layer;
 	}
-	
+
 	public void setLayer(int layer)
 	{
 		this.layer = layer;
 	}
+
 	public int getPreState()
 	{
 		return preState;
 	}
+
 	public void setPreState(int preState)
 	{
 		this.preState = preState;

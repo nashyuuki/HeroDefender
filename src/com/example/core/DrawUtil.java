@@ -11,22 +11,21 @@ import com.example.herodefender.Consts;
 
 public class DrawUtil
 {
-	public static void drawRect(Canvas canvas, int x, int y, int width,
-			int height, int a, int r, int g, int b)
+	public static void drawRect(Canvas canvas, int x, int y, int width, int height, int a, int r, int g, int b)
 	{
 		Paint paint = new Paint();
 		paint.setARGB(a, r, g, b);
-		drawRect(canvas,x,y,width,height,paint);
+		drawRect(canvas, x, y, width, height, paint);
 	}
-	public static void drawRect(Canvas canvas, int x, int y, int width,
-			int height, Paint paint)
+
+	public static void drawRect(Canvas canvas, int x, int y, int width, int height, Paint paint)
 	{
 		canvas.save();
-		int dx=(int)(x*Consts.coordScale);
-		int dy=(int)(y*Consts.coordScale);
+		int dx = (int) (x * Consts.coordScale);
+		int dy = (int) (y * Consts.coordScale);
 		Rect rect = new Rect(dx, dy, dx + width, dy + height);
-		int dwidth=(int)(width*Consts.coordScale);
-		int dheight=(int)(height*Consts.coordScale);
+		int dwidth = (int) (width * Consts.coordScale);
+		int dheight = (int) (height * Consts.coordScale);
 		if (setWindowClip(canvas, dx, dy, dwidth, dheight))
 		{
 			canvas.scale(Consts.coordScale, Consts.coordScale, dx, dy);
@@ -34,43 +33,46 @@ public class DrawUtil
 		}
 		canvas.restore();
 	}
-	public static void drawStrokeRect(Canvas canvas, int x, int y, int width,
-			int height, int a, int r, int g, int b,int strokeWidth)
+
+	public static void drawStrokeRect(Canvas canvas, int x, int y, int width, int height, int a, int r, int g, int b, int strokeWidth)
 	{
 		Paint paint = new Paint();
 		paint.setARGB(a, r, g, b);
 		paint.setStrokeWidth(strokeWidth);
 		paint.setStyle(Style.STROKE);
-		drawRect(canvas,x,y,width,height,paint);		
+		drawRect(canvas, x, y, width, height, paint);
 	}
-	public static void drawText(Canvas canvas,String text,int x,int y,int size)
+
+	public static void drawText(Canvas canvas, String text, int x, int y, int size)
 	{
-		int dx=(int)(x*Consts.coordScale);
-		int dy=(int)(y*Consts.coordScale);
-		int dsize=(int)(size*Consts.coordScale);
-		Paint paint=new Paint();
-		paint.setTextSize(dsize);//設定字體大小
+		int dx = (int) (x * Consts.coordScale);
+		int dy = (int) (y * Consts.coordScale);
+		int dsize = (int) (size * Consts.coordScale);
+		Paint paint = new Paint();
+		paint.setTextSize(dsize);// 設定字體大小
 		paint.setColor(Color.BLACK);
-		int width=(int)paint.measureText(text);
+		int width = (int) paint.measureText(text);
 		Paint rpaint = new Paint();
 		rpaint.setARGB(255, 255, 255, 255);
 		Rect rect = new Rect(dx, dy, dx + width, dy + dsize);
 		canvas.save();
-		if(setWindowClip(canvas, dx, dy,width ,size))
+		if (setWindowClip(canvas, dx, dy, width, size))
 		{
 			canvas.drawRect(rect, rpaint);
-			canvas.drawText(text, dx, dy+dsize, paint);
+			canvas.drawText(text, dx, dy + dsize, paint);
 		}
 		canvas.restore();
-		
+
 	}
+
 	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y)
 	{
 		int width = drawable.getIntrinsicWidth();
 		int height = drawable.getIntrinsicHeight();
 		drawImage(canvas, drawable, x, y, width, height);
 	}
-	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y,int alpha)
+
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, int alpha)
 	{// alpha 0~255
 		int width = drawable.getIntrinsicWidth();
 		int height = drawable.getIntrinsicHeight();
@@ -78,98 +80,94 @@ public class DrawUtil
 		drawImage(canvas, drawable, x, y, width, height);
 		drawable.setAlpha(255);
 	}
-	public static void drawColorImage(Canvas canvas, Drawable drawable, int x, int y,int color,int size,int alpha)
+
+	public static void drawColorImage(Canvas canvas, Drawable drawable, int x, int y, int color, int size, int alpha)
 	{// alpha 0~255
-		int dsize=(int)(size*Consts.coordScale);
-		int width = drawable.getIntrinsicWidth()+dsize;
-		int height = drawable.getIntrinsicHeight()+dsize;
+		int dsize = (int) (size * Consts.coordScale);
+		int width = drawable.getIntrinsicWidth() + dsize;
+		int height = drawable.getIntrinsicHeight() + dsize;
 		drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 		drawable.setAlpha(alpha);
 		drawImage(canvas, drawable, x, y, width, height);
 		drawable.setColorFilter(null);
 		drawable.setAlpha(255);
 	}
-	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-			int y, float scaleX, float scaleY)
+
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, float scaleX, float scaleY)
 	{
 		int width = (int) (drawable.getIntrinsicWidth() * scaleX);
 		int height = (int) (drawable.getIntrinsicHeight() * scaleY);
 		drawImage(canvas, drawable, x, y, width, height);
 	}
-	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-			int y, int width, int height)
+
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, int width, int height)
 	{
 		canvas.save();
-		int dx=(int)(x*Consts.coordScale);
-		int dy=(int)(y*Consts.coordScale);
-//		int dwidth=(int)(width*Consts.screenScale);
-//		int dheight=(int)(height*Consts.screenScale);
+		int dx = (int) (x * Consts.coordScale);
+		int dy = (int) (y * Consts.coordScale);
+		// int dwidth=(int)(width*Consts.screenScale);
+		// int dheight=(int)(height*Consts.screenScale);
 		drawable.setBounds(dx, dy, dx + width, dy + height);
 		if (setWindowClip(canvas, dx, dy, width, height))
 		{
-//			canvas.scale(Consts.screenScale, Consts.screenScale, dx, dy);
+			// canvas.scale(Consts.screenScale, Consts.screenScale, dx, dy);
 			drawable.draw(canvas);
 		}
 		canvas.restore();
 	}
-//	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-//			int y, int width, int height)
-//	{
-//		canvas.save();
-//		int dx=(int)(x*Consts.coordScale);
-//		int dy=(int)(y*Consts.coordScale);
-//		int dwidth=(int)(width*Consts.screenScale);
-//		int dheight=(int)(height*Consts.screenScale);
-//		drawable.setBounds(dx, dy, dx + width, dy + height);
-//		if (setWindowClip(canvas, dx, dy, dwidth, dheight))
-//		{
-//			canvas.scale(Consts.screenScale, Consts.screenScale, dx, dy);
-//			drawable.draw(canvas);
-//		}
-//		canvas.restore();
-//	}
 
-	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-			int y, int width, int height, int frameInt)
+	// public static void drawImage(Canvas canvas, Drawable drawable, int x,
+	// int y, int width, int height)
+	// {
+	// canvas.save();
+	// int dx=(int)(x*Consts.coordScale);
+	// int dy=(int)(y*Consts.coordScale);
+	// int dwidth=(int)(width*Consts.screenScale);
+	// int dheight=(int)(height*Consts.screenScale);
+	// drawable.setBounds(dx, dy, dx + width, dy + height);
+	// if (setWindowClip(canvas, dx, dy, dwidth, dheight))
+	// {
+	// canvas.scale(Consts.screenScale, Consts.screenScale, dx, dy);
+	// drawable.draw(canvas);
+	// }
+	// canvas.restore();
+	// }
+
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, int width, int height, int frameInt)
 	{
 		int imageWidth = drawable.getIntrinsicWidth();
 		int imageHeight = drawable.getIntrinsicHeight();
-		drawImage(canvas, drawable, x, y, width, height, frameInt, imageWidth,
-				imageHeight);
+		drawImage(canvas, drawable, x, y, width, height, frameInt, imageWidth, imageHeight);
 
 	}
 
-	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-			int y, int width, int height, int frameInt, float scaleX,
-			float scaleY)
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, int width, int height, int frameInt, float scaleX, float scaleY)
 	{
 		int imageWidth = (int) (drawable.getIntrinsicWidth() * scaleX);
 		int imageHeight = (int) (drawable.getIntrinsicHeight() * scaleY);
 		int width1 = (int) (width * scaleX);
 		int height1 = (int) (height * scaleY);
-		drawImage(canvas, drawable, x, y, width1, height1, frameInt,
-				imageWidth, imageHeight);
+		drawImage(canvas, drawable, x, y, width1, height1, frameInt, imageWidth, imageHeight);
 
 	}
 
-	public static void drawImage(Canvas canvas, Drawable drawable, int x,
-			int y, int width, int height, int frameInt, int imageWidth,
-			int imageHeight)
+	public static void drawImage(Canvas canvas, Drawable drawable, int x, int y, int width, int height, int frameInt, int imageWidth, int imageHeight)
 	{
 		canvas.save();
 		int widthInt = imageWidth / width;
-		drawable.setBounds(x - width * (frameInt % widthInt), y - height
-				* (frameInt / widthInt), x - width * (frameInt % widthInt)
-				+ imageWidth, y - height * (frameInt / widthInt) + imageHeight);
-		if (setWindowClip(canvas, x, y, width, height))
+		int dx = (int) (x * Consts.coordScale);
+		int dy = (int) (y * Consts.coordScale);
+		drawable.setBounds(dx - width * (frameInt % widthInt), dy - height * (frameInt / widthInt), dx
+				- width * (frameInt % widthInt) + imageWidth, dy - height * (frameInt / widthInt)
+				+ imageHeight);
+		if (setWindowClip(canvas, dx, dy, width, height))
 		{
 			drawable.draw(canvas);
 		}
 		canvas.restore();
 	}
 
-	public static boolean setWindowClip(Canvas canvas, int x, int y, int width,
-			int height)
+	public static boolean setWindowClip(Canvas canvas, int x, int y, int width, int height)
 	{// 判斷是否會繪於螢幕上 true=畫 false=不畫
 		// 設定clip的大小
 		int windowWidth = Consts.screenWidth;

@@ -14,27 +14,29 @@ public class MainActivity extends Activity
 {
 	private CoreController core;
 	private GameBean gameBean;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		getWindow().setFlags(
-				WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(	WindowManager.LayoutParams.FLAG_FULLSCREEN,
+								WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		gameBean=(GameBean)this.getApplicationContext();
-		gameBean=new GameBean();
+		gameBean = (GameBean) this.getApplicationContext();
+		gameBean = new GameBean();
 		gameBean.setContext(this);
 		gameBean.init();
-		core=new CoreController(gameBean);
+		core = new CoreController(gameBean);
 		setContentView(core);
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
 	@Override
 	protected void onPause()
 	{
@@ -42,6 +44,7 @@ public class MainActivity extends Activity
 		core.pause();
 		super.onPause();
 	}
+
 	@Override
 	protected void onDestroy()
 	{
@@ -49,6 +52,7 @@ public class MainActivity extends Activity
 		gameBean.getImageConfig().resetDrawables();
 		super.onDestroy();
 	}
+
 	@Override
 	protected void onResume()
 	{

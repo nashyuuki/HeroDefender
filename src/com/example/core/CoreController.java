@@ -7,14 +7,12 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import com.example.herodefender.Consts;
 import com.example.herodefender.config.ImageConfig;
 import com.example.herodefender.config.ModelConfig;
 import com.example.herodefender.config.MusicConfig;
 
-public class CoreController extends SurfaceView implements
-		SurfaceHolder.Callback, Runnable
+public class CoreController extends SurfaceView implements SurfaceHolder.Callback, Runnable
 {
 	private SurfaceHolder holder;
 	private Thread thread;
@@ -40,44 +38,46 @@ public class CoreController extends SurfaceView implements
 		imageConfig = gameBean.getImageConfig();
 		musciConfig = gameBean.getMusciConfig();
 		running = false;
-		
+
 	}
+
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int arg1, int width,int height)
-	{	
-		if(running)
+	public void surfaceChanged(SurfaceHolder holder, int arg1, int width, int height)
+	{
+		if (running)
 		{
-			Log.v("TEST", "surfaceChanged: width:"+width+" height:"+height);
+			Log.v("TEST", "surfaceChanged: width:" + width + " height:" + height);
 			Consts.screenWidth = width;
 			Consts.screenHeight = height;
-			Drawable image=imageConfig.getDrawable(ImageConfig.BACKGROUND_SIZE);
-			int imageWidth= image.getIntrinsicWidth();
-			int imageHeight= image.getIntrinsicHeight();
+			Drawable image = imageConfig.getDrawable(ImageConfig.BACKGROUND_SIZE);
+			int imageWidth = image.getIntrinsicWidth();
+			int imageHeight = image.getIntrinsicHeight();
 			imageConfig.removeDrawable(ImageConfig.BACKGROUND_SIZE);
-			float scaleX=(float)width/imageWidth;
-			float scaleY=(float)height/imageHeight;
-			float scale=1;
-			float coord=1;
-			if(scaleX<scaleY)
+			float scaleX = (float) width / imageWidth;
+			float scaleY = (float) height / imageHeight;
+			float scale = 1;
+			float coord = 1;
+			if (scaleX < scaleY)
 			{
-				scale=scaleX;
-				Consts.screenHeight= (int)(imageHeight*scale);
-				coord=(float)width/Consts.COORD_WIDTH;
+				scale = scaleX;
+				Consts.screenHeight = (int) (imageHeight * scale);
+				coord = (float) width / Consts.COORD_WIDTH;
 			}
 			else
 			{
-				scale=scaleY;
-				Consts.screenWidth= (int)(imageWidth*scale);
-				coord=(float)height/Consts.COORD_HEIGHT;
+				scale = scaleY;
+				Consts.screenWidth = (int) (imageWidth * scale);
+				coord = (float) height / Consts.COORD_HEIGHT;
 			}
-			Consts.screenScale=scale;
-			Consts.coordScale=coord;
+			Consts.screenScale = scale;
+			Consts.coordScale = coord;
 		}
 	}
+
 	@Override
 	public void surfaceCreated(SurfaceHolder holder)
 	{
-		Log.v(Consts.TAG, "surfaceCreated");	
+		Log.v(Consts.TAG, "surfaceCreated");
 		setFocusable(true); // make sure we get key events
 	}
 
@@ -92,7 +92,8 @@ public class CoreController extends SurfaceView implements
 			try
 			{
 				thread.join();
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				Log.v(Consts.TAG, "pause e:" + e);
 			}
@@ -109,18 +110,20 @@ public class CoreController extends SurfaceView implements
 		if (!running)
 		{
 			running = true;
-			lastUpdateTime=System.currentTimeMillis();
-			viewUpdateTime=System.currentTimeMillis();
+			lastUpdateTime = System.currentTimeMillis();
+			viewUpdateTime = System.currentTimeMillis();
 			thread = new Thread(this);
 			thread.start();
 		}
 	}
+
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder)
 	{
 		Log.v(Consts.TAG, "surfaceDestroyed");
 		this.pause();
 	}
+
 	@Override
 	public void run()
 	{
@@ -129,8 +132,8 @@ public class CoreController extends SurfaceView implements
 
 			{
 				CoreModel coreModel = null;
-				int state =	gameBean.getState();
-				int nextState =gameBean.getNextState();
+				int state = gameBean.getState();
+				int nextState = gameBean.getNextState();
 				// 取得Model
 				if (state == -1)
 				{// 程式初始化
@@ -139,7 +142,7 @@ public class CoreController extends SurfaceView implements
 					nextState = ModelConfig.INIT_STATE;
 					coreModel = modelConfig.getModel(state);
 					coreModel.init();
-				} 
+				}
 				else if (state != nextState)
 				{// 狀態切換
 					Log.v("TEST", "狀態切換");
@@ -150,7 +153,7 @@ public class CoreController extends SurfaceView implements
 					state = nextState;
 					coreModel = modelConfig.getModel(state);
 					coreModel.init();
-				} 
+				}
 				else
 				{
 					coreModel = modelConfig.getModel(state);
@@ -158,43 +161,50 @@ public class CoreController extends SurfaceView implements
 				gameBean.setState(state);
 				gameBean.setNextState(nextState);
 				long nowTime = System.currentTimeMillis();
-				coreModel.updateView(nowTime-viewUpdateTime);
-				viewUpdateTime=System.currentTimeMillis();
-				if (this.nextTime(timeUpdateSpeed,lastUpdateTime))
+				coreModel.updateView(nowTime - viewUpdateTime);
+				viewUpdateTime = System.currentTimeMillis();
+				if (this.nextTime(timeUpdateSpeed, lastUpdateTime))
 				{
-					lastUpdateTime=System.currentTimeMillis();
+					lastUpdateTime = System.currentTimeMillis();
 					coreModel.update();
 				}
 				// 繪圖
 				try
 				{
-//					canvas = null;
+					// canvas = null;
 					// 繪圖
 					canvas = holder.lockCanvas();
 					// Log.v("TEST", "width:" + canvas.getWidth() +
 					// " height:"
 					// + canvas.getHeight());
-					
-//					translateX = (canvas.getWidth() - Consts.SCREEN_WIDTH) / 2;
-//					translateY = (canvas.getHeight() - Consts.SCREEN_HEIGHT) / 2;
-//					// 置中
-//					canvas.translate(translateX, translateY);
+
+					// translateX = (canvas.getWidth() - Consts.SCREEN_WIDTH) /
+					// 2;
+					// translateY = (canvas.getHeight() - Consts.SCREEN_HEIGHT)
+					// / 2;
+					// // 置中
+					// canvas.translate(translateX, translateY);
 					// 畫預設背景
-					DrawUtil.drawRect(canvas, 0, 0, Consts.screenWidth,
-							Consts.screenHeight, Consts.BACKGROUND_COLOR[0],
-							Consts.BACKGROUND_COLOR[1],
-							Consts.BACKGROUND_COLOR[2],
-							Consts.BACKGROUND_COLOR[3]);
+					DrawUtil.drawRect(	canvas,
+										0,
+										0,
+										Consts.screenWidth,
+										Consts.screenHeight,
+										Consts.BACKGROUND_COLOR[0],
+										Consts.BACKGROUND_COLOR[1],
+										Consts.BACKGROUND_COLOR[2],
+										Consts.BACKGROUND_COLOR[3]);
 					coreModel.drawView(canvas);
-//					long nowTime = System.currentTimeMillis();
-//					DrawUtil.drawText(canvas, "TEST:" + (nowTime - lastTime),
-//							10, 10, 45);
-//                  lastTime=System.currentTimeMillis();
-				} 
+					// long nowTime = System.currentTimeMillis();
+					// DrawUtil.drawText(canvas, "TEST:" + (nowTime - lastTime),
+					// 10, 10, 45);
+					// lastTime=System.currentTimeMillis();
+				}
 				catch (Exception e)
 				{
 					Log.v(Consts.TAG, "run e:" + e);
-				} finally
+				}
+				finally
 				{
 					if (canvas != null)
 					{
@@ -208,7 +218,7 @@ public class CoreController extends SurfaceView implements
 
 	}
 
-	public boolean nextTime(long timeSpeed,long lastTime)
+	public boolean nextTime(long timeSpeed, long lastTime)
 	{
 		long nowTime = System.currentTimeMillis();
 		if (nowTime - lastTime > timeSpeed)
@@ -227,6 +237,7 @@ public class CoreController extends SurfaceView implements
 	{
 		return musciConfig;
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
@@ -235,6 +246,7 @@ public class CoreController extends SurfaceView implements
 		coreModel.onKeyDown(keyCode);
 		return super.onKeyDown(keyCode, event);
 	}
+
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event)
 	{
@@ -243,16 +255,17 @@ public class CoreController extends SurfaceView implements
 		coreModel.onKeyUp(keyCode);
 		return super.onKeyUp(keyCode, event);
 	}
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
 		CoreModel coreModel = modelConfig.getModel(gameBean.getState());
-		int tx = (int) (event.getX()/Consts.coordScale);
-		int ty = (int) (event.getY()/Consts.coordScale);
+		int tx = (int) (event.getX() / Consts.coordScale);
+		int ty = (int) (event.getY() / Consts.coordScale);
 		// Log.v(Consts.TAG, "onTouchEvent:" + event + " x:" + tx + " y:" + ty);
 		int touchState = CoreModel.TOUCH_NON;
 		switch (event.getAction())
-			{
+		{
 			case MotionEvent.ACTION_DOWN:
 				downX = event.getX();
 				downY = event.getY();
@@ -263,18 +276,20 @@ public class CoreController extends SurfaceView implements
 				float x = Math.abs(upX - downX);
 				float y = Math.abs(upY - downY);
 				double z = Math.sqrt(x * x + y * y);
-				int jiaodu = Math
-						.round((float) (Math.asin(y / z) / Math.PI * 180));// 角度
+				int jiaodu = Math.round((float) (Math.asin(y / z) / Math.PI * 180));// 角度
 				if (upY < downY && jiaodu > 45)
 				{// 上
 					touchState = CoreModel.TOUCH_UP;
-				} else if (upY > downY && jiaodu > 45)
+				}
+				else if (upY > downY && jiaodu > 45)
 				{// 下
 					touchState = CoreModel.TOUCH_DOWN;
-				} else if (upX < downX && jiaodu <= 45)
+				}
+				else if (upX < downX && jiaodu <= 45)
 				{// 左
 					touchState = CoreModel.TOUCH_LEFT;
-				} else if (upX > downX && jiaodu <= 45)
+				}
+				else if (upX > downX && jiaodu <= 45)
 				{// 右
 					touchState = CoreModel.TOUCH_RIGHT;
 				}
@@ -284,12 +299,12 @@ public class CoreController extends SurfaceView implements
 				return false;
 			case MotionEvent.ACTION_UP:
 				break;
-			}
+		}
 		coreModel.onTouchEvent(tx, ty, event, touchState);
 
 		return true;
 	}
-	
+
 	public GameBean getGameBean()
 	{
 		return gameBean;

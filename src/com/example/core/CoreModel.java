@@ -9,11 +9,11 @@ import com.example.herodefender.config.ImageConfig;
 
 public abstract class CoreModel
 {
-	public static final int TOUCH_NON=0;
-	public static final int TOUCH_UP=1;
-	public static final int TOUCH_DOWN=2;
-	public static final int TOUCH_LEFT=3;
-	public static final int TOUCH_RIGHT=4;
+	public static final int TOUCH_NON = 0;
+	public static final int TOUCH_UP = 1;
+	public static final int TOUCH_DOWN = 2;
+	public static final int TOUCH_LEFT = 3;
+	public static final int TOUCH_RIGHT = 4;
 	public Context context;
 	public GameBean gameBean;
 	public int subState;
@@ -23,11 +23,11 @@ public abstract class CoreModel
 		this.context = gameBean.getContext();
 		this.gameBean = gameBean;
 	}
-	
+
 	public abstract void init();
-	
+
 	public abstract void updateView(long viewTime);
-	
+
 	public abstract void update();
 
 	public abstract void drawView(Canvas canvas);
@@ -36,7 +36,7 @@ public abstract class CoreModel
 
 	public abstract void onKeyUp(int keyCode);
 
-	public void onTouchEvent(int x, int y, MotionEvent event,int touchState)
+	public void onTouchEvent(int x, int y, MotionEvent event, int touchState)
 	{
 	};
 
@@ -62,7 +62,7 @@ public abstract class CoreModel
 
 	public void exitGame()
 	{
-//		TestCoreActivity.getInstance().finish();
+		// TestCoreActivity.getInstance().finish();
 	}
 
 	public void restart()
