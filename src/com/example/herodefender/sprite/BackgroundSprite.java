@@ -7,7 +7,7 @@ import com.example.herodefender.config.ImageConfig;
 public class BackgroundSprite extends Sprite
 {
 	public static final int GAME = 1;
-
+	public static final int LOBBY=2;
 	public BackgroundSprite(ImageConfig imageConfig)
 	{
 		super(imageConfig);
@@ -19,6 +19,10 @@ public class BackgroundSprite extends Sprite
 		if (state == GAME)
 		{
 			this.drawImage(canvas, ImageConfig.BACKGROUND_GAME, x, y);
+		}
+		else if(state==LOBBY)
+		{
+			this.drawImage(canvas, ImageConfig.BACKGROUND_LOBBY, x, y);
 		}
 	}
 

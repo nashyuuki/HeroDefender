@@ -73,8 +73,6 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 			Consts.coordScale = coord;
 		}
 	}
-
-	@Override
 	public void surfaceCreated(SurfaceHolder holder)
 	{
 		Log.v(Consts.TAG, "surfaceCreated");
@@ -116,15 +114,11 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 			thread.start();
 		}
 	}
-
-	@Override
 	public void surfaceDestroyed(SurfaceHolder holder)
 	{
 		Log.v(Consts.TAG, "surfaceDestroyed");
 		this.pause();
 	}
-
-	@Override
 	public void run()
 	{
 		while (running)
@@ -135,7 +129,7 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 				int state = gameBean.getState();
 				int nextState = gameBean.getNextState();
 				// 取得Model
-				if (state == -1)
+				if (state == ModelConfig.INIT)
 				{// 程式初始化
 					Log.v("TEST", "程式初始化");
 					state = ModelConfig.INIT_STATE;
@@ -143,7 +137,8 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 					coreModel = modelConfig.getModel(state);
 					coreModel.init();
 				}
-				else if (state != nextState)
+				else if (state != nextState&&
+						nextState!=ModelConfig.END)
 				{// 狀態切換
 					Log.v("TEST", "狀態切換");
 					// 清除Models資料
@@ -158,8 +153,15 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 				{
 					coreModel = modelConfig.getModel(state);
 				}
-				gameBean.setState(state);
-				gameBean.setNextState(nextState);
+				if(nextState!=ModelConfig.END)
+				{
+					gameBean.setState(state);
+					gameBean.setNextState(nextState);
+				}
+				else
+				{
+					gameBean.finish();
+				}
 				long nowTime = System.currentTimeMillis();
 				coreModel.updateView(nowTime - viewUpdateTime);
 				viewUpdateTime = System.currentTimeMillis();
@@ -213,11 +215,8 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 
 				}
 			}
-
 		}
-
 	}
-
 	public boolean nextTime(long timeSpeed, long lastTime)
 	{
 		long nowTime = System.currentTimeMillis();
@@ -227,18 +226,14 @@ public class CoreController extends SurfaceView implements SurfaceHolder.Callbac
 		}
 		return false;
 	}
-
 	public ImageConfig getImageConfig()
 	{
 		return imageConfig;
 	}
-
 	public MusicConfig getMusciConfig()
 	{
 		return musciConfig;
 	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		Log.v(Consts.TAG, "onKeyDown keyCode" + keyCode + " KeyEvent" + event);

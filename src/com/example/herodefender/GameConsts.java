@@ -1,6 +1,7 @@
 package com.example.herodefender;
 
 import com.example.herodefender.config.ImageConfig;
+import com.example.herodefender.sprite.ButtonSprite;
 import com.example.herodefender.sprite.MonsterSprite;
 import com.example.herodefender.sprite.WallSprite;
 
@@ -40,6 +41,34 @@ public class GameConsts
 	// {48,MonsterSprite.TYPE_VAMPIRE,0},
 	//
 	// };
+	public static final int[] BUTTON_TYPE=
+			{
+				ImageConfig.BUTTON_START01,
+				ImageConfig.BUTTON_TEAM01,
+				ImageConfig.BUTTON_EXIT01,
+				ImageConfig.BUTTON_MUSIC01,
+			};
+	public static final int[][] LOBBY_BUTTON_COLLISION=
+			{
+				{0,0,487,141},
+				{0,0,487,141},
+				{0,0,487,141},
+				{0,0,230,141}
+			};
+	public static final int[][] LOBBY_BUTTON_POSITION=
+			{
+				{ButtonSprite.TYPE_START,440,350},
+				{ButtonSprite.TYPE_TEAM,440,490},
+				{ButtonSprite.TYPE_EXIT,440,630},
+				{ButtonSprite.TYPE_MUSIC,1060,640},
+			};
+	public static final int[][] BUTTON_PUSH_SCRIPT=
+			{
+				{ImageConfig.BUTTON_START02,ImageConfig.BUTTON_START02},
+				{ImageConfig.BUTTON_TEAM02,ImageConfig.BUTTON_TEAM02},
+				{ImageConfig.BUTTON_EXIT02,ImageConfig.BUTTON_EXIT02},
+				{ImageConfig.BUTTON_MUSIC02,ImageConfig.BUTTON_MUSIC02},
+			};
 	public static final int[][] BARRIER_SET =
 		{
 			{0,MonsterSprite.TYPE_WEREWOLVES,0},

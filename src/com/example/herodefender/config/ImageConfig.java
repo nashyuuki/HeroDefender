@@ -255,6 +255,15 @@ public class ImageConfig
 	public static final int BURST05 = 244;
 	public static final int BURST06 = 245;
 	public static final int UI_BOMB = 250;
+	public static final int BACKGROUND_LOBBY=251;
+	public static final int BUTTON_START01=252;
+	public static final int BUTTON_START02=253;
+	public static final int BUTTON_TEAM01=254;
+	public static final int BUTTON_TEAM02=255;
+	public static final int BUTTON_EXIT01=256;
+	public static final int BUTTON_EXIT02=257;
+	public static final int BUTTON_MUSIC01=258;
+	public static final int BUTTON_MUSIC02=259;
 
 	private static final int[] CITYWALL =
 		{
@@ -1019,6 +1028,33 @@ public class ImageConfig
 					break;
 				case UI_BOMB:
 					drawable = this.getResizeDrawable(R.drawable.directory_p2_003);
+					break;
+				case BACKGROUND_LOBBY:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_world);
+					break;
+				case BUTTON_START01:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_start_000);
+					break;
+				case BUTTON_START02:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_start_001);
+					break;
+				case BUTTON_TEAM01:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_team_000);
+					break;
+				case BUTTON_TEAM02:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_team_001);
+					break;
+				case BUTTON_EXIT01:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_away_000);
+					break;
+				case BUTTON_EXIT02:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_away_001);
+					break;
+				case BUTTON_MUSIC01:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_music_000);
+					break;
+				case BUTTON_MUSIC02:
+					drawable = this.getResizeDrawable(R.drawable.gamedirectory1_music_001);
 					break;
 				default:
 					drawable = this.getResizeDrawable(R.drawable.ic_launcher);
