@@ -20,6 +20,7 @@ public class LobbyModel extends CoreModel
 		super(gameBean);
 	}
 
+	@Override
 	public void init()
 	{
 		backgroundSprite=new BackgroundSprite(this.getImageConfig());
@@ -35,10 +36,12 @@ public class LobbyModel extends CoreModel
 			buttons[i].setState(ButtonSprite.STAY);
 		}
 	}
+	@Override
 	public void updateView(long viewTime)
 	{
 		
 	}
+	@Override
 	public void update()
 	{
 		if(subState==LOBBY)
@@ -54,7 +57,9 @@ public class LobbyModel extends CoreModel
 				{
 					if(buttons[i].getType()==ButtonSprite.TYPE_START)
 					{
-						this.setNextState(ModelConfig.GAME);
+//						this.setNextState(ModelConfig.GAME);
+						this.setNextState(ModelConfig.SET);
+						
 					}
 					else if(buttons[i].getType()==ButtonSprite.TYPE_EXIT)
 					{
@@ -70,6 +75,7 @@ public class LobbyModel extends CoreModel
 		}
 		
 	}
+	@Override
 	public void drawView(Canvas canvas)
 	{
 		if(subState==LOBBY||subState==PUSH)
@@ -81,14 +87,17 @@ public class LobbyModel extends CoreModel
 			}
 		}
 	}
+	@Override
 	public void onKeyDown(int keyCode)
 	{
 		
 	}
+	@Override
 	public void onKeyUp(int keyCode)
 	{
 		
 	}
+	@Override
 	public void onTouchEvent(int x, int y, MotionEvent event, int touchState)
 	{
 		if(subState==LOBBY)

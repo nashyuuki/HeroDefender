@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 
@@ -35,6 +36,9 @@ public class GameModel extends CoreModel
 	private static final int ATTACK_NONE = 0;
 	private static final int ATTACK_SHOOT = 1;
 	private static final int ATTACK_STONE = 2;
+	private static final int WOUND_BIG=0;
+	private static final int WOUND_MID=1;
+	private static final int WOUND_NON=2;
 	private int scriptInt;
 	private int[][] barrierSet;
 	private BackgroundSprite backgroundSprite;
@@ -56,6 +60,7 @@ public class GameModel extends CoreModel
 		super(gameBean);
 	}
 
+	@Override
 	public void init()
 	{
 		backgroundSprite = new BackgroundSprite(this.getImageConfig());
@@ -92,7 +97,7 @@ public class GameModel extends CoreModel
 			heros[i].setPosition(GameConsts.HERO_POSITION[i]);
 			heros[i].setCollisionArea(GameConsts.HERO_COLLISION);
 			heros[i].setMaxMp(GameConsts.HERO_MP);
-			heros[i].setWeaponType(i + 1);
+			heros[i].setWeaponType(0);
 			heros[i].setState(HeroSprite.STAY);
 		}
 		barrierSet = GameConsts.BARRIER_SET;
@@ -241,11 +246,17 @@ public class GameModel extends CoreModel
 				if (monsterSprite.isCollision(arrowSprite)
 						&& this.isZombieHit(arrowSprite, monsterSprite))
 				{
-					if (this.isWounded(arrowSprite, monsterSprite))
+					int woundType=this.isWounded(arrowSprite, monsterSprite);
+					if (woundType==WOUND_BIG)
 					{
-						attack = attack * GameConsts.WOUND_MULTIPLE;
+						attack = attack * GameConsts.WOUND_BIG_MULTIPLE;
 						monsterSprite.setState(MonsterSprite.WOUNDED);
 						arrowSprite.setState(ArrowSprite.HIT);
+					}
+					else if(woundType==WOUND_MID)
+					{
+						attack = attack * GameConsts.WOUND_MID_MULTIPLE;
+						arrowSprite.setState(Sprite.DISABLE);
 					}
 					else
 					{
@@ -289,7 +300,7 @@ public class GameModel extends CoreModel
 		return true;
 	}
 
-	private boolean isWounded(ArrowSprite arrowSprite, MonsterSprite monsterSprite)
+	private int isWounded(ArrowSprite arrowSprite, MonsterSprite monsterSprite)
 	{
 		int arrowType = arrowSprite.getType();
 		int monsterType = monsterSprite.getType();
@@ -297,31 +308,47 @@ public class GameModel extends CoreModel
 		{
 			if (monsterType == MonsterSprite.TYPE_HERO)
 			{
-				return true;
+				return WOUND_BIG;
+			}
+			else
+			{
+				return WOUND_MID;
 			}
 		}
 		else if (arrowType == ArrowSprite.TYPE_BULLET)
 		{
 			if (monsterType == MonsterSprite.TYPE_WEREWOLVES)
 			{
-				return true;
+				return WOUND_BIG;
+			}
+			else
+			{
+				return WOUND_NON;
 			}
 		}
 		else if (arrowType == ArrowSprite.TYPE_CROSS)
 		{
 			if (monsterType == MonsterSprite.TYPE_VAMPIRE)
 			{
-				return true;
+				return WOUND_BIG;
+			}
+			else
+			{
+				return WOUND_NON;
 			}
 		}
 		else if (arrowType == ArrowSprite.TYPE_SYRING)
 		{
 			if (monsterType == MonsterSprite.TYPE_ZOMBIE)
 			{
-				return true;
+				return WOUND_BIG;
+			}
+			else
+			{
+				return WOUND_NON;
 			}
 		}
-		return false;
+		return WOUND_NON;
 	}
 
 	private boolean isCollisionDoor(ArrowSprite arrowSprite)
@@ -1092,8 +1119,9 @@ public class GameModel extends CoreModel
 				{
 					scriptInt++;
 					this.addMonsterSprite(script[2], script[1]);
-					if (this.isHasScript(barrierSet, time))
+					if (this.isHasScript(barrierSet, scriptInt))
 					{
+						Log.v("TEST", "scriptInt:"+scriptInt);
 						script = barrierSet[scriptInt];
 					}
 					else

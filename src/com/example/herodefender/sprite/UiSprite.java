@@ -1,6 +1,9 @@
 package com.example.herodefender.sprite;
 
+import java.util.Arrays;
+
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.core.NumberUtil;
 import com.example.herodefender.GameConsts;
@@ -12,6 +15,7 @@ public class UiSprite extends Sprite
 	public static final int BAR_STAY = 2;
 	public static final int BAR_HP = 3;
 	public static final int MENU_PAUSE = 4;
+	public static final int NUMBER = 5;
 	private int hp = 0;
 	private int maxHp = 100;
 	private boolean pause;
@@ -20,6 +24,7 @@ public class UiSprite extends Sprite
 	private int maxTime;
 	private int stage = 11;
 	private int bombInt=3;
+	private int barrierInt;
 
 	public UiSprite(ImageConfig imageConfig)
 	{
@@ -87,6 +92,10 @@ public class UiSprite extends Sprite
 		{
 			this.drawImage(canvas, GameConsts.MENU_PAUSE_SCRIPT[scriptInt], x, y);
 		}
+		else if (state == NUMBER)
+		{
+			this.drawNumber(canvas, barrierInt+1, ImageConfig.NUMBER_BARRIER, x, y);
+		}
 	}
 
 	private void drawBar(Canvas canvas)
@@ -147,8 +156,8 @@ public class UiSprite extends Sprite
 		this.drawNumber(canvas,
 						stage,
 						ImageConfig.NUMBER_STAGE,
-						GameConsts.STAGE_POSITION[0],
-						GameConsts.STAGE_POSITION[1]);
+						x+GameConsts.STAGE_POSITION[0],
+						y+GameConsts.STAGE_POSITION[1]);
 	}
 	private void drawBomb(Canvas canvas)
 	{
@@ -163,13 +172,14 @@ public class UiSprite extends Sprite
 	{
 		int numberWidth = this.getWidth(image) / 10;
 		int numberHeight = this.getHeight(image);
+		
 		int[] numberArray = NumberUtil.transformPoint(number);
 		for (int i = 0; i < numberArray.length; i++)
 		{
 			this.drawImage(	canvas,
 							image,
-							x + dx - i * numberWidth,
-							y + dy,
+							dx - i * numberWidth,
+							dy,
 							numberWidth,
 							numberHeight,
 							numberArray[i]);
@@ -239,5 +249,16 @@ public class UiSprite extends Sprite
 	{
 		this.bombInt = bombInt;
 	}
+
+	public int getBarrierInt()
+	{
+		return barrierInt;
+	}
+
+	public void setBarrierInt(int barrierInt)
+	{
+		this.barrierInt = barrierInt;
+	}
+
 	
 }

@@ -160,7 +160,15 @@ public class Sprite
 	{
 		return this.getDrawable(image).getIntrinsicHeight();
 	}
-
+	public void drawRoundRect(Canvas canvas,int x1,int y1,int x2,int y2,int a, int r, int g, int b,int strokeWidth)
+	{
+		DrawUtil.drawRoundRect(canvas,x1,y1,x2,y2,a, r, g, b,strokeWidth);
+	}
+	public void drawTile(Canvas canvas, int image, int x, int y,int w,int h)
+	{
+		Drawable drawable = this.getDrawable(image);
+		DrawUtil.drawTile(canvas, drawable, x, y, w, h);
+	}
 	public void drawImage(Canvas canvas, int image, int x, int y, int width, int height, int frameInt, float scaleX, float scaleY)
 	{
 		Drawable drawable = this.getDrawable(image);
